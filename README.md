@@ -23,7 +23,7 @@ These chips are controlled by a three wire interface, consisting of:
     X9C503 device will be placed in the low power standby mode
     until the device is selected once again.
 
-The library allows you to set resistance values either by using the counter values used internally by the chips (0 to 99), or by specifying the resistance value you want directly. (All resistances refer to the resistance between the low end of the potentiometer - the VH/RH pin, and the wiper - the VW/RW pin.)
+The library allows you to set resistance values either by using the counter values used internally by the chips (0 to 99), or by specifying the resistance value you want directly in kilohms. (All resistances refer to the resistance between the low end of the potentiometer - the VH/RH pin, and the wiper - the VW/RW pin.)
 
 When this document refers to **forcing** the wiper to a position, this means that it will not assume anything about where the wiper currently is, but will 'force' it. This entails either moving the wiper 99 steps up (ensuring that it is set to 99), or moving it 99 steps down (ensuring that it is set to 0). This is necessary because there is no way of reading the wiper postiton from the chip. 
 
@@ -38,7 +38,7 @@ Where the resistance parameter can be one of:
     LAPX9C10X_X9C503       (50 kOhm)
     LAPX9C10X_X9C104       (100 kOhm)
     
-or can be the actual resistance of the potentiometer, as measured between VH/RH  and VL/RL (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is ±20%.
+or can be the actual resistance of the potentiometer (in kilohms), as measured between VH/RH  and VL/RL (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is ±20%.
 
 The chips contain non-volatile memory, and can be programmed to power up to any of the 100 available wiper positions. **LapX9C10X** has a function to save to this memory.
 
@@ -56,7 +56,7 @@ void set(int wiper);
 void set(float resistance);
 ----------------
 If passed an integer, sets the wiper to that value (0-99).
-If passed a float, sets the wiper to the position that is closest to the resistance given.
+If passed a float, sets the wiper to the position that is closest to the resistance given (in kilohms).
 
 void offset(int change);
 -----------------
@@ -72,7 +72,7 @@ Returns the current wiper position.
 
 float getK();
 -------------
-Returns the resistance of the current wiper position.
+Returns the resistance of the current wiper position (in kilohms).
 
 void writeNVM();
 ----------------
