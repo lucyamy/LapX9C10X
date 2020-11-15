@@ -3,7 +3,7 @@
 /*                                                                                                                                     
  * This example assumes you're using an X9C103 (10k) chip. For other variants,
  * Change the value in the line:
- *   #define RESISTANCE = LAPX9C10X_X9C103
+ *   LapX9C10X led(INCPIN, UDPIN, CSPIN, LAPX9C10X_X9C103);
  * to one of:
  * LAPX9C10X_X9C102       (1k)
  * LAPX9C10X_X9C103       (10k)
