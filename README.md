@@ -1,10 +1,13 @@
 # LapX9C10X
 An Arduino library to drive the X9C102, X9C103, X9C104, and X9C503 Digitally Controlled Potentiometers. The four members of the family have these resistances:
-    • X9C102 = 1k
-    • X9C103 = 10k
-    • X9C503 = 50k
-    • X9C104 = 100k
+
+     X9C102 = 1k
+     X9C103 = 10k
+     X9C503 = 50k
+     X9C104 = 100k
+     
 These chips are controlled by a three wire interface, consisting of:
+
     Up/Down (U/D)
     The U/D input controls the direction of the wiper movement
     and whether the counter is incremented or decremented.
@@ -22,16 +25,21 @@ These chips are controlled by a three wire interface, consisting of:
 
 The library allows you to set resistance values either by using the counter values used internally by the chips (0 to 99), or by specifying the resistance value you want directly. (All resistances refer to the resistance between the low end of the potentiometer - the VH/RH pin, and the wiper - the VW/RW pin.)
 
+When this document refers to **forcing** the wiper to a position, this means that it will not assume anything about where the wiper currently is, but will 'force' it. This entails either moving the wiper 99 steps up (ensuring that it is set to 99), or moving it 99 steps down (ensuring that it is set to 0). This is necessary because there is no way of reading the wiper postiton from the chip. 
+
 **LapX9C10X** is invoked as:
  
     LapX9C10X(uint8_t incrementPin, uint8_t upDownPin, uint8_t selectNVRAMWritePin, float resistance);
 
 Where the resistance parameter can be one of:
+
     LAPX9C10X_X9C102       (1 kOhm)
     LAPX9C10X_X9C103       (10 kOhm)
     LAPX9C10X_X9C503       (50 kOhm)
     LAPX9C10X_X9C104       (100 kOhm)
-or can be the actual resistance of the potentiometer, as measured between VH/RH  and VL/RL (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is ±20%.
+    
+or can be the actual resistance of the potentiometer, as measured between VH/RH  and VL/RL (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is Â±20%.
+
 The chips contain non-volatile memory, and can be programmed to power up to any of the 100 available wiper positions. **LapX9C10X** has a function to save to this memory.
 
 When using **LapX9C10X** functions that are passed a 0-99 wiper position, or a 0-max resistance, any value that is higher than the maximum is changed to the maximum.
@@ -41,7 +49,7 @@ void begin();
 -------------
 void begin(int);
 ----------------
-This must be called before using any other function. If called with no argument, it sets the wiper to 99 – the maximum. If called with any negative value, it sets the wiper to 0 – the minimum. Any value from 0-99 tells **LapX9C10X** to assume the power up value to be that number, and it will not change it. Use this with care, as if you give it an incorrect value, all operations you then perform will also be incorrect.
+This must be called before using any other function. If called with no argument, it forces the wiper to 99 â€“ the maximum. If called with any negative value, it forces the wiper to 0 â€“ the minimum. Any value from 0-99 tells **LapX9C10X** to assume the power up value to be that number, and it will not change it. Use this with care, as if you give it an incorrect value, all operations you then perform will also be incorrect.
 
 void set(int wiper);
 --------------
@@ -52,7 +60,7 @@ If passed a float, sets the wiper to the position that is closest to the resista
 
 void offset(int change);
 -----------------
-Moves the wiper ‘change’ amount – that is, it adds or subtracts ‘change’ from the wiper position.
+Moves the wiper â€˜changeâ€™ amount â€“ that is, it adds or subtracts â€˜changeâ€™ from the wiper position.
 
 void reset(int wiper);
 ----------------
@@ -68,6 +76,6 @@ Returns the resistance of the current wiper position.
 
 void writeNVM();
 ----------------
-Writes the current wiper position to the chip’s non-volatile memory.
+Writes the current wiper position to the chipâ€™s non-volatile memory.
 
 
