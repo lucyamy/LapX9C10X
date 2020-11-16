@@ -8,28 +8,27 @@ An Arduino library to drive the X9C102, X9C103, X9C104, and X9C503 Digitally Con
      
 These chips are controlled by a three wire interface, consisting of:
 
-    Up/Down (U/D)
-    The U/D input controls the direction of the wiper movement
-    and whether the counter is incremented or decremented.
-    Increment (INC)
-    The INC input is negative-edge triggered. Toggling INC will
-    move the wiper and either increment or decrement the counter
-    in the direction indicated by the logic level on the U/D input.
-    Chip Select (CS)
-    The device is selected when the CS input is LOW. The current
-    counter value is stored in non-volatile memory when CS is
-    returned HIGH while the INC input is also HIGH. After the store
-    operation is complete the ISLX9C102, X9C103, X9C104,
-    X9C503 device will be placed in the low power standby mode
-    until the device is selected once again.
+***Up/Down (U/D)***
 
+The U/D input controls the direction of the wiper movement and whether the counter is incremented or decremented.
+
+***Increment (INC)***
+
+The INC input is negative-edge triggered. Toggling INC will move the wiper and either increment or decrement the counter in the direction indicated by the logic level on the U/D input.
+
+***Chip Select (CS)***
+
+The device is selected when the CS input is low. The current counter value is stored in non-volatile memory when CS is returned high while the INC input is also high.
+
+The library
+-----------
 The library allows you to set resistance values either by using the counter values used internally by the chips (0 to 99), or by specifying the resistance value you want directly in kilohms. (All resistances refer to the resistance between the low end of the potentiometer - the VH/RH pin, and the wiper - the VW/RW pin.)
 
 When this document refers to **forcing** the wiper to a position, this means that it will not assume anything about where the wiper currently is, but will 'force' it. This entails either moving the wiper 99 steps up (ensuring that it is set to 99), or moving it 99 steps down (ensuring that it is set to 0). This is necessary because there is no way of reading the wiper postiton from the chip. 
 
 **LapX9C10X** is invoked as:
  
-    LapX9C10X(uint8_t incrementPin, uint8_t upDownPin, uint8_t selectNVRAMWritePin, float resistance);
+  **LapX9C10X(uint8_t incrementPin, uint8_t upDownPin, uint8_t selectPin, float resistance);**
 
 Where the resistance parameter can be one of:
 
@@ -38,11 +37,12 @@ Where the resistance parameter can be one of:
     LAPX9C10X_X9C503       (50 kOhm)
     LAPX9C10X_X9C104       (100 kOhm)
     
-or can be the actual resistance of the potentiometer (in kilohms), as measured between VH/RH  and VL/RL (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is ±20%.
+or can be the actual resistance of the potentiometer (in kilohms), as measured between **VH/RH**  and **VL/RL** (when the chip is powered on). Using the actual resistance will of course give more accurate results, as the tolerance of the parts is ±20%.
 
 The chips contain non-volatile memory, and can be programmed to power up to any of the 100 available wiper positions. **LapX9C10X** has a function to save to this memory.
 
-When using **LapX9C10X** functions that are passed a 0-99 wiper position, or a 0-max resistance, any value that is higher than the maximum is changed to the maximum.
+When using **LapX9C10X** functions that are passed a 0-99 wiper position, or a 0-max resistance, any value that is less than zero is changed to zero, and any value that is higher than the maximum is changed to the maximum.
+
 The functions provided by **LapX9C10X** are:
 
 void begin();
@@ -60,7 +60,7 @@ If passed a float, sets the wiper to the position that is closest to the resista
 
 void offset(int change);
 -----------------
-Moves the wiper ‘change’ amount – that is, it adds or subtracts ‘change’ from the wiper position.
+Moves the wiper *change* amount – that is, it adds or subtracts *change* from the wiper position.
 
 void reset(int wiper);
 ----------------
