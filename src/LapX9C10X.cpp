@@ -111,7 +111,7 @@ float LapX9C10X::getK(void) {
 void LapX9C10X::offset(int value) {
   int v;
   v = _counterValue + value;
-  v = v < 0 : 0 : v;
+  v = v < 0 ? 0 : v;
   _setValue(v);
 }
 
