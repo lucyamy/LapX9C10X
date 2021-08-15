@@ -11,9 +11,9 @@
  * LAPX9C10X_X9C104       (100k)
  *
  * The chip is connected to the Arduino like this:
- * 1 - !INC - pin 5
- * 2 - U/!D - pin 6
- * 7 - !CS  - pin 7
+ * 1 - !INC - pin 6
+ * 2 - U/!D - pin 7
+ * 7 - !CS  - pin 5
  * (! indicates that the thing following has a line over the top, called a bar.)
  *   
  * The other pins on the chip must be wired like this:
